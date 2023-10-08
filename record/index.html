@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> OpenAI API </title>
+</head>
+<body>
+  <h1>Ask a Question</h1>
+  <label for="userInput"></label>
+  <input type="text" id="userInput" placeholder="Enter your question">
+  <button onclick="getAnswer()">Get Answer</button>
+  <div id="answer"></div>
+
+  <script>
+    const API_KEY = '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';
+    const apiUrl = 'https://api.openai.com/v1/engines/davinci/completions';
+
+    // Use fetch() to make a POST request to the OpenAI API
+    async function getAnswer() {
+      
+      const userInput = document.getElementById('userInput').value;
+
+      // Define your request payload, including the text prompt
+
+      /*const requestPayload = {
+        prompt: `${userInput}`,
+        max_tokens: 50,
+        temperature: 0.2,
+      };*/
+
+      fetch('http://localhost:5500/getAnswer', { //change this to the correct route later
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': `Bearer ${API_KEY}`,
+          'Access-Control-Allow-Origin': 'http://127.0.0.1:5501'
+        },
+        mode:"cors",
+        credentials:"include",
+        body: JSON.stringify(userInput), 
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Handle the API response (generated text) here
+          document.getElementById('answer').textContent = data.choices[0].text; 
+        })
+        .catch(error => {
+          // Handle errors here
+          console.error('Fetch error:', error);
+        });
+    }
+  </script>
+</body>
+</html>

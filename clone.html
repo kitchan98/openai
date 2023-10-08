@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> OpenAI API </title>
+  <style>
+    #chatBox {
+      width: 300px;
+      height: 400px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+      margin-bottom: 10px;
+    }
+    .userMessage {
+      text-align: right;
+      color: blue;
+    }
+    .aiMessage {
+      text-align: left;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ask a Question</h1>
+  <div id="chatBox"></div>
+  <input type="text" id="userInput" placeholder="Enter your question">
+  <button id="getAnswerButton" onclick="getAnswer()">Get Answer</button>
+
+  <script>
+    const API_KEY = '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'; // Replace with your API key
+
+    async function getAnswer() {
+      const userInput = document.getElementById('userInput').value;
+      const button = document.getElementById('getAnswerButton');
+      const chatBox = document.getElementById('chatBox');
+
+      if (!userInput.trim()) {
+        alert('Please enter a question');
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Loading...';
+
+      // Display user's question in chat box
+      chatBox.innerHTML += `<p class="userMessage">${userInput}</p>`;
+
+      fetch('http://localhost:5500/getAnswer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': `Bearer ${API_KEY}`
+        },
+        credentials:"include",
+        body: JSON.stringify({ userInput }), 
+      })
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => { throw err; });
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Display AI's answer in chat box
+          chatBox.innerHTML += `<p class="aiMessage">${data.answer}</p>`;
+          // Scroll to the bottom of the chat box
+          chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(error => {
+          console.error('Fetch error:', error);
+          chatBox.innerHTML += `<p class="aiMessage">An error occurred. Please try again.</p>`;
+        })
+        .finally(() => {
+          button.disabled = false;
+          button.textContent = 'Get Answer';
+          // Clear the input field
+          document.getElementById('userInput').value = '';
+        });
+    }
+  </script>
+</body>
+</html>

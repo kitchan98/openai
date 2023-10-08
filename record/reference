@@ -1,0 +1,31 @@
+import OpenAI from "openai";
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+
+const openai = new OpenAI({
+    apiKey: "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",
+});
+
+const app = express();
+const port = 5500;
+
+app.use(bodyParser.json());
+app.use(cors());
+
+app.get("/", async(req, res) => {
+    const { message } = req.body;
+
+    const chatCompletion = await openai.chat.completions.create({
+    messages: [{role: "user", content: `${message}`}],
+    model:"gpt-3.5-turbo",
+    })
+        res.json({
+            chatCompletion: chatCompletion.choices[0].message,
+    })
+
+}); 
+
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`)
+});
