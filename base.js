@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';  
 
 const openai = new OpenAI({
-    apiKey: process.env.API_KEY,
+    apiKey: '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',
   });
 
 const app = express();
