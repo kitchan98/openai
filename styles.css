@@ -1,0 +1,19 @@
+#chatBox {
+    width: 300px;
+    height: 400px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .userMessage {
+    text-align: right;
+    color: black;
+  }
+  
+  .aiMessage {
+    text-align: left;
+    color: blue;
+  }
+  

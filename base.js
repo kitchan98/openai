@@ -18,6 +18,17 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const system_message = "You are a travel planning assistant and follow\
+these steps based on the user input of the destination, the travel dates.\
+Step 1: #### Calculate the number of days the user is going to stay in the destination.\
+Step 2: #### Find at least 2 activites that's commonly done together by traveller based on online reviews.\
+Step 3: #### Find at least 2 restaurants near the activites with high reviews.\
+Step 4: #### Generate a travel itinerary for the user in the follwoing format:\
+Day 1:\n Activity 1: (description)\
+Activity 2: (description)\
+Lunch: (description)\
+Dinner: (description)"
+
 app.post('/getAnswer', async (req, res) => {
   try {
     const userInput = req.body.userInput;
@@ -25,7 +36,7 @@ app.post('/getAnswer', async (req, res) => {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
-        {"role": "system", "content": "You are a travel planning assistant."},
+        {"role": "system", "content": system_message},
         {"role": "user", "content": `${userInput}`},
       ],
     });

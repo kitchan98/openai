@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Plan</title>
+    <style>
+        h1 {
+            font-size: 30px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Travel Plan</h1>
+
+    <h2>Day 1</h2>
+    <ul>
+        <li>Activity 1</li>
+        <li>Activity 2</li>
+        <li>Restaurant 1</li>
+        <li>Restaurant 2</li>
+    </ul>
+
+    <h2>Day 2</h2>
+    <ul>
+        <li>Activity 1</li>
+        <li>Activity 2</li>
+        <li>Restaurant 1</li>
+        <li>Restaurant 2</li>
+    </ul>
+    <script>
+        // Sample data received from the API or model
+        const travelData = [
+            {
+                day: 'Day 1',
+                activities: ['Activity 1', 'Activity 2'],
+                restaurants: ['Restaurant 1', 'Restaurant 2']
+            },
+            {
+                day: 'Day 2',
+                activities: ['Activity 1', 'Activity 2'],
+                restaurants: ['Restaurant 1', 'Restaurant 2']
+            },
+            // Add more days and data as needed
+        ];
+
+        const travelPlan = document.getElementById('travel-plan');
+
+        // Loop through the travelData and create sections for each day
+        travelData.forEach((dayData, index) => {
+            const dayContainer = document.createElement('div');
+            dayContainer.innerHTML = `<h2>${dayData.day}</h2>`;
+            
+            const ul = document.createElement('ul');
+
+            // Add activities
+            dayData.activities.forEach(activity => {
+                const li = document.createElement('li');
+                li.textContent = activity;
+                ul.appendChild(li);
+            });
+
+            // Add restaurants
+            dayData.restaurants.forEach(restaurant => {
+                const li = document.createElement('li');
+                li.textContent = restaurant;
+                ul.appendChild(li);
+            });
+
+            dayContainer.appendChild(ul);
+            travelPlan.appendChild(dayContainer);
+        });
+    </script>
+</body>
+</html>
