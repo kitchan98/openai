@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,66 +20,32 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Travel Plan</h1>
+    <h1>Trip Itinerary</h1>
+    <div id="responseDisplay">
 
-    <h2>Day 1</h2>
-    <ul>
-        <li>Activity 1</li>
-        <li>Activity 2</li>
-        <li>Restaurant 1</li>
-        <li>Restaurant 2</li>
-    </ul>
 
-    <h2>Day 2</h2>
-    <ul>
-        <li>Activity 1</li>
-        <li>Activity 2</li>
-        <li>Restaurant 1</li>
-        <li>Restaurant 2</li>
-    </ul>
+    </div>
+
     <script>
-        // Sample data received from the API or model
-        const travelData = [
-            {
-                day: 'Day 1',
-                activities: ['Activity 1', 'Activity 2'],
-                restaurants: ['Restaurant 1', 'Restaurant 2']
-            },
-            {
-                day: 'Day 2',
-                activities: ['Activity 1', 'Activity 2'],
-                restaurants: ['Restaurant 1', 'Restaurant 2']
-            },
-            // Add more days and data as needed
-        ];
 
-        const travelPlan = document.getElementById('travel-plan');
+        const urlParams = new URLSearchParams(window.location.search);
+        const resp = urlParams.get('gen');
+        //document.getElementById('responseDisplay').textContent = resp;
 
-        // Loop through the travelData and create sections for each day
-        travelData.forEach((dayData, index) => {
-            const dayContainer = document.createElement('div');
-            dayContainer.innerHTML = `<h2>${dayData.day}</h2>`;
-            
-            const ul = document.createElement('ul');
+        let formattedText = resp.replace(/Day \d+:/g, match => `<h1>${match}</h1>`);
+        formattedText = formattedText.replace(/Morning:/g, match => `<h3>${match}</h3>`);
+        formattedText = formattedText.replace(/Afternoon:/g, match => `<h3>${match}</h3>`);
+        formattedText = formattedText.replace(/Evening:/g, match => `<h3>${match}</h3>`);
+        formattedText = formattedText.replace(/Lunch:/g, match => `<h3>${match}</h3>`);
+        formattedText = formattedText.replace(/Dinner:/g, match => `<h3>${match}</h3>`);
 
-            // Add activities
-            dayData.activities.forEach(activity => {
-                const li = document.createElement('li');
-                li.textContent = activity;
-                ul.appendChild(li);
-            });
+        // Insert the formatted text into the content div
+        document.getElementById('responseDisplay').innerHTML = formattedText;
 
-            // Add restaurants
-            dayData.restaurants.forEach(restaurant => {
-                const li = document.createElement('li');
-                li.textContent = restaurant;
-                ul.appendChild(li);
-            });
-
-            dayContainer.appendChild(ul);
-            travelPlan.appendChild(dayContainer);
-        });
     </script>
 </body>
+
 </html>
