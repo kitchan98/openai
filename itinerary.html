@@ -24,6 +24,7 @@
 <body>
     <h1>Travel Plan</h1>
     <h1>Trip Itinerary</h1>
+    <img id="image-display" alt="Image">
     <div id="responseDisplay">
 
 
@@ -33,6 +34,11 @@
 
         const urlParams = new URLSearchParams(window.location.search);
         const resp = urlParams.get('gen');
+        const image = urlParams.get('image');
+
+        const decodedImage = decodeURIComponent(image);
+        const imageElement = document.getElementById('image-display');
+        imageElement.src = decodedImage;
         //document.getElementById('responseDisplay').textContent = resp;
 
         let formattedText = resp.replace(/Day \d+:/g, match => `<h1>${match}</h1>`);

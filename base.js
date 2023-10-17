@@ -2,11 +2,11 @@ import 'dotenv/config'
 import OpenAI from 'openai';
 import express from 'express';
 import bodyParser from 'body-parser';
-import cors from 'cors';  
+import cors from 'cors'; 
 
 const openai = new OpenAI({
     apiKey: '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',
-  });
+  }); 
 
 const app = express();
 app.use(express.json());
@@ -37,6 +37,9 @@ app.post('/getAnswer', async (req, res) => {
     const userInput = req.body.userInput;
     const userInput2 = req.body.userInput2;
 
+    // function from the image.js file to generate image
+    //const image = await photo({ "inputs": userInput});
+
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
@@ -47,8 +50,12 @@ app.post('/getAnswer', async (req, res) => {
       temperature: 0.5,
     });
 
+    const image = await openai.images.generate({ prompt: `${userInput}`, size: '256x256'});
+    //const urls = image.data.map(item => item.url);
+
     res.setHeader('Content-Type', 'application/json');
-    res.json({ answer: response.choices[0].message.content });
+    res.json({ answer: response.choices[0].message.content, image_url: image.data[0].url});
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
