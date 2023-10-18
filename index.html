@@ -2,6 +2,9 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <title> OpenAI API </title>
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/css/bootstrap.min.css">
@@ -13,14 +16,22 @@
 </head>
 
 <body>
-  <label for="destination">Destination:</label>
-  <input type="text" id="userInput" name="destination" placeholder="Enter your destination" required>
-  <label for="date">Date:</label>
-  <input type="text" id="dateRange" />
-  <button id="getAnswerButton" onclick="getAnswer()">Generate Itinerary</button>
+  <div class="banner">
+    <h1>Welcome to the Travel Planning Site</h1>
+    <h2></h2>
+    <h4>Powered by OpenAI</h4>
+  </div>
+
+  <div class="container">
+    <label for="destination">Destination:</label>
+    <input type="text" id="userInput" name="destination" placeholder="Enter your destination" required>
+    <label for="date">Date:</label>
+    <input type="text" id="dateRange" />
+    <button id="getAnswerButton" onclick="getAnswer()">Generate Itinerary</button>
+  </div>
 
   <script>
-    const API_KEY = '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'; // Replace with your API key
+    const API_KEY = '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';
     $(document).ready(function () {
       $('#dateRange').daterangepicker();
     });
@@ -64,8 +75,9 @@
         })
         .then(data => {
           // Display AI's answer on the next page  
-          const encodedImage = encodeURIComponent(data.image_url);
-          window.location.href = `/itinerary.html?gen=${data.answer}&image=${encodedImage}`;
+          //const encodedImage = encodeURIComponent(data.image_url);
+          //&image=${encodedImage}
+          window.location.href = `/itinerary.html?gen=${data.answer}`;
         })
         .catch(error => {
           console.error('Fetch error:', error);

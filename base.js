@@ -1,12 +1,11 @@
 import 'dotenv/config'
 import OpenAI from 'openai';
 import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors'; 
+import cors from 'cors';
 
 const openai = new OpenAI({
-    apiKey: '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',
-  }); 
+  apiKey: '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',
+});
 
 const app = express();
 app.use(express.json());
@@ -37,24 +36,18 @@ app.post('/getAnswer', async (req, res) => {
     const userInput = req.body.userInput;
     const userInput2 = req.body.userInput2;
 
-    // function from the image.js file to generate image
-    //const image = await photo({ "inputs": userInput});
-
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {"role": "system", "content": system_message},
-        {"role": "user", "content": `${userInput}`},
-        {"role": "user", "content": `${userInput2}`},
+        {"role": "user", "content": userInput},
+        {"role": "user", "content": userInput2},
       ],
       temperature: 0.5,
     });
 
-    const image = await openai.images.generate({ prompt: `${userInput}`, size: '256x256'});
-    //const urls = image.data.map(item => item.url);
-
     res.setHeader('Content-Type', 'application/json');
-    res.json({ answer: response.choices[0].message.content, image_url: image.data[0].url});
+    res.json({ answer: response.choices[0].message.content});
 
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -62,5 +55,16 @@ app.post('/getAnswer', async (req, res) => {
 });
 
 app.listen(5500, () => {
- console.log('http://localhost:5500/getAnswer');
+  console.log('http://localhost:5500/getAnswer');
 });
+
+
+/*const image = await openai.images.generate({ prompt: `${userInput}`, size: '256x256'});
+image_url: image.data[0].url
+const urls = image.data.map(item => item.url); */
+        //const image = urlParams.get('image');
+
+        //const decodedImage = decodeURIComponent(image);
+        //const imageElement = document.getElementById('image-display');
+        //imageElement.src = decodedImage;
+        //document.getElementById('responseDisplay').textContent = resp;
